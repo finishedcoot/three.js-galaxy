@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef, useState, useMemo, useEffect } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { PerspectiveCamera, OrbitControls } from "@react-three/drei";
+import * as THREE from "three";
+import CursorTrail from "./threejs/CursorTrail";
+import Galaxy from "./threejs/Galaxy";
 
-function App() {
+import "./App.css";
+
+const PerpectCamera = () => {
+  const myCamera = useRef();
+
+  const { camera } = useThree();
+
+  useEffect(() => {
+    camera.rotateX(50);
+  }, [camera]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <PerspectiveCamera
+      ref={myCamera}
+      makeDefault
+      position={[0, 1.7, 5]}
+      fov={45}
+    />
+  );
+};
+
+export default function App() {
+  return (
+    <Canvas className="mainCanvas">
+      <PerpectCamera />
+      <Galaxy />
+      <CursorTrail />
+    </Canvas>
   );
 }
-
-export default App;
